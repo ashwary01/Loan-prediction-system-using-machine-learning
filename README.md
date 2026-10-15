@@ -29,46 +29,6 @@ The project is structured into three layers: an exploratory research notebook, m
 
 ![LoanGuard AI System Architecture](assets/system_architecture.png)
 
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        Data Ingestion Layer                           │
-│     loan_data.csv (614 records, 13 demographic/financial attributes)  │
-└──────────────────────────────────┬─────────────────────────────────────┘
-                                   │
-┌──────────────────────────────────▼─────────────────────────────────────┐
-│                   Domain Feature Engineering Layer                     │
-│  - Total_Income = ApplicantIncome + CoapplicantIncome                  │
-│  - Total_Income_Log = log(1 + Total_Income)                            │
-│  - LoanAmount_Log = log(1 + LoanAmount)                                │
-│  - EMI = (LoanAmount * 1000) / Loan_Amount_Term                        │
-│  - Balance_Income = Total_Income - EMI                                 │
-└──────────────────────────────────┬─────────────────────────────────────┘
-                                   │
-┌──────────────────────────────────▼─────────────────────────────────────┐
-│             Scikit-Learn ColumnTransformer Preprocessing               │
-│  ┌──────────────────────────────┐   ┌──────────────────────────────┐   │
-│  │       Numeric Pipeline       │   │     Categorical Pipeline     │   │
-│  │  - Median Imputation         │   │  - Mode (Most Frequent)      │   │
-│  │  - StandardScaler            │   │  - OneHotEncoder(drop='first')│  │
-│  └──────────────────────────────┘   └──────────────────────────────┘   │
-└──────────────────────────────────┬─────────────────────────────────────┘
-                                   │
-┌──────────────────────────────────▼─────────────────────────────────────┐
-│                      Model Estimation & Tuning                         │
-│  - Logistic Regression (Linear Log-Odds Baseline)                     │
-│  - Decision Tree Classifier (Non-linear Partitioning)                  │
-│  - Random Forest Classifier (GridSearchCV Tuned Ensemble)              │
-│  - Stratified 5-Fold Cross-Validation (No Leakage)                    │
-└──────────────────────────────────┬─────────────────────────────────────┘
-                                   │
-┌──────────────────────────────────▼─────────────────────────────────────┐
-│                   Production Inference & Artifact                      │
-│     models/loan_model.joblib (Encapsulates full pipeline + weights)    │
-│     models/loan_model_metrics.json (Evaluation metadata)               │
-└────────────────────────────────────────────────────────────────────────┘
-```
-
----
 
 ## 3. Dataset Schema
 
