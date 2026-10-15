@@ -1,0 +1,66 @@
+{
+    "best_model": "Random Forest (Tuned)",
+    "evaluation_summary": [
+        {
+            "Model": "Logistic Regression",
+            "CV ROC-AUC (Mean)": 0.6906649689731882,
+            "CV ROC-AUC (Std)": 0.028287416166459443,
+            "CV F1 (Mean)": 0.8876332065542366,
+            "Test Accuracy": 0.8373983739837398,
+            "Test F1 (Class 1)": 0.9,
+            "Test Recall (Class 0 - Default)": 0.40625,
+            "Test F1 (Class 0 - Default)": 0.5652173913043478,
+            "Test ROC-AUC": 0.6971153846153846
+        },
+        {
+            "Model": "Decision Tree",
+            "CV ROC-AUC (Mean)": 0.6770784158763611,
+            "CV ROC-AUC (Std)": 0.058430318742891854,
+            "CV F1 (Mean)": 0.8688123143994441,
+            "Test Accuracy": 0.8292682926829268,
+            "Test F1 (Class 1)": 0.8923076923076924,
+            "Test Recall (Class 0 - Default)": 0.46875,
+            "Test F1 (Class 0 - Default)": 0.5882352941176471,
+            "Test ROC-AUC": 0.7093063186813188
+        },
+        {
+            "Model": "Random Forest (Baseline)",
+            "CV ROC-AUC (Mean)": 0.694233462123873,
+            "CV ROC-AUC (Std)": 0.058648988934061196,
+            "CV F1 (Mean)": 0.8867985966824483,
+            "Test Accuracy": 0.8211382113821138,
+            "Test F1 (Class 1)": 0.89,
+            "Test Recall (Class 0 - Default)": 0.375,
+            "Test F1 (Class 0 - Default)": 0.5217391304347826,
+            "Test ROC-AUC": 0.7582417582417582
+        },
+        {
+            "Model": "Random Forest (Tuned)",
+            "CV ROC-AUC (Mean)": 0.7091981618077507,
+            "CV ROC-AUC (Std)": 0.0,
+            "CV F1 (Mean)": 0.9179487179487179,
+            "Test Accuracy": 0.8292682926829268,
+            "Test F1 (Class 1)": 0.8944723618090452,
+            "Test Recall (Class 0 - Default)": 0.40625,
+            "Test F1 (Class 0 - Default)": 0.5531914893617021,
+            "Test ROC-AUC": 0.7747252747252746
+        }
+    ],
+    "test_confusion_matrix": [
+        [
+            13,
+            19
+        ],
+        [
+            2,
+            89
+        ]
+    ],
+    "optimal_params": {
+        "classifier__class_weight": null,
+        "classifier__max_depth": 8,
+        "classifier__min_samples_leaf": 2,
+        "classifier__min_samples_split": 5,
+        "classifier__n_estimators": 200
+    }
+}

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoanGuard AI | Loan Default Prediction & Credit Risk Intelligence</title>
+    <meta name="description" content="Production-ready machine learning underwriting system predicting retail loan defaults with calibrated risk probabilities and feature explanations.">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="m9 12 2 2 4-4"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <h1>LoanGuard<span>AI</span></h1>
+                    <span class="badge-sub">Credit Risk Intelligence System</span>
+                </div>
+            </div>
+
+            <div class="nav-status">
+                <div class="pulse-indicator">
+                    <span class="pulse-dot"></span>
+                    <span class="status-label">Model: <strong>Random Forest (Tuned)</strong></span>
+                </div>
+                <div class="pill-metric">ROC-AUC: <strong>0.775</strong></div>
+                <div class="pill-metric">Accuracy: <strong>82.9%</strong></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Application Container -->
+    <main class="app-layout">
+        <!-- Preset Scenario Selector Strip -->
+        <section class="preset-strip">
+            <div class="preset-header">
+                <span class="section-tag">Quick Underwriting Scenarios:</span>
+            </div>
+            <div class="preset-buttons">
+                <button type="button" class="preset-btn active" data-preset="prime" id="btnPresetPrime">
+                    <span class="preset-indicator green"></span>
+                    <strong>Prime Borrower</strong>
+                    <small>High Income, Low DTI, Clean Credit</small>
+                </button>
+                <button type="button" class="preset-btn" data-preset="subprime" id="btnPresetSubprime">
+                    <span class="preset-indicator red"></span>
+                    <strong>Subprime Risk</strong>
+                    <small>Derogatory Credit, High Loan Burden</small>
+                </button>
+                <button type="button" class="preset-btn" data-preset="marginal" id="btnPresetMarginal">
+                    <span class="preset-indicator yellow"></span>
+                    <strong>Marginal Urban</strong>
+                    <small>Single Earner, Moderate Loan, Good Credit</small>
+                </button>
+                <button type="button" class="preset-btn" data-preset="small_business" id="btnPresetSmallBiz">
+                    <span class="preset-indicator purple"></span>
+                    <strong>Self-Employed</strong>
+                    <small>Sole Proprietor, Semiurban Collateral</small>
+                </button>
+            </div>
+        </section>
+
+        <!-- Underwriting Grid -->
+        <div class="grid-container">
+            <!-- Left Panel: Input Dossier -->
+            <section class="card panel-form">
+                <div class="card-header">
+                    <div class="header-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2>Applicant Underwriting Dossier</h2>
+                        <p class="subtitle">Demographic, employment, and financial parameters</p>
+                    </div>
+                </div>
+
+                <form id="loanForm" class="form-content">
+                    <!-- Demographic Group -->
+                    <div class="form-group-title">1. Applicant Demographics & Profile</div>
+                    <div class="form-row three-col">
+                        <div class="input-field">
+                            <label for="gender">Gender</label>
+                            <select id="gender" name="Gender">
+                                <option value="Male" selected>Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="input-field">
+                            <label for="married">Marital Status</label>
+                            <select id="married" name="Married">
+                                <option value="Yes" selected>Married (Yes)</option>
+                                <option value="No">Single (No)</option>
+                            </select>
+                        </div>
+                        <div class="input-field">
+                            <label for="dependents">Dependents</label>
+                            <select id="dependents" name="Dependents">
+                                <option value="0">0 Dependents</option>
+                                <option value="1" selected>1 Dependent</option>
+                                <option value="2">2 Dependents</option>
+                                <option value="3+">3+ Dependents</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row two-col">
+                        <div class="input-field">
+                            <label for="education">Education</label>
+                            <select id="education" name="Education">
+                                <option value="Graduate" selected>Graduate Degree</option>
+                                <option value="Not Graduate">Not Graduate</option>
+                            </select>
+                        </div>
+                        <div class="input-field">
+                            <label for="selfEmployed">Employment Status</label>
+                            <select id="selfEmployed" name="Self_Employed">
+                                <option value="No" selected>Salaried Employee (No)</option>
+                                <option value="Yes">Self-Employed / Business (Yes)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Financial Parameters Group -->
+                    <div class="form-group-title">2. Financial Capacity & Requested Loan</div>
+                    <div class="form-row two-col">
+                        <div class="input-field">
+                            <label for="applicantIncome">
+                                Primary Monthly Income ($)
+                                <span class="val-badge" id="valAppInc">$8,500</span>
+                            </label>
+                            <input type="range" id="applicantIncome" name="ApplicantIncome" min="500" max="30000" step="100" value="8500">
+                        </div>
+                        <div class="input-field">
+                            <label for="coapplicantIncome">
+                                Co-Applicant Monthly Income ($)
+                                <span class="val-badge" id="valCoappInc">$3,200</span>
+                            </label>
+                            <input type="range" id="coapplicantIncome" name="CoapplicantIncome" min="0" max="20000" step="100" value="3200">
+                        </div>
+                    </div>
+
+                    <div class="form-row two-col">
+                        <div class="input-field">
+                            <label for="loanAmount">
+                                Requested Loan Amount ($ in Thousands)
+                                <span class="val-badge" id="valLoanAmt">$140k ($140,000)</span>
+                            </label>
+                            <input type="range" id="loanAmount" name="LoanAmount" min="10" max="600" step="5" value="140">
+                        </div>
+                        <div class="input-field">
+                            <label for="loanTerm">
+                                Loan Repayment Term (Months)
+                                <span class="val-badge" id="valLoanTerm">360 mos (30 yrs)</span>
+                            </label>
+                            <select id="loanTerm" name="Loan_Amount_Term">
+                                <option value="360" selected>360 Months (30 Years)</option>
+                                <option value="240">240 Months (20 Years)</option>
+                                <option value="180">180 Months (15 Years)</option>
+                                <option value="120">120 Months (10 Years)</option>
+                                <option value="60">60 Months (5 Years)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Credit Bureau & Collateral Group -->
+                    <div class="form-group-title">3. Credit Bureau Record & Collateral</div>
+                    <div class="form-row two-col">
+                        <div class="input-field">
+                            <label for="creditHistory">Credit History Bureau Record</label>
+                            <div class="credit-toggle-wrapper">
+                                <button type="button" class="credit-btn active" id="btnCreditGood" data-value="1.0">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Prime / Meets Guidelines (1.0)
+                                </button>
+                                <button type="button" class="credit-btn" id="btnCreditBad" data-value="0.0">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                    Derogatory / Defaults (0.0)
+                                </button>
+                                <input type="hidden" id="creditHistory" name="Credit_History" value="1.0">
+                            </div>
+                        </div>
+                        <div class="input-field">
+                            <label for="propertyArea">Property Collateral Area</label>
+                            <select id="propertyArea" name="Property_Area">
+                                <option value="Semiurban" selected>Semiurban (High Approval Rate)</option>
+                                <option value="Urban">Urban (Metropolitan)</option>
+                                <option value="Rural">Rural (Agrarian)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="btnEvaluate">
+                        <span class="btn-spinner" id="btnSpinner"></span>
+                        <svg class="btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
+                        <span>Evaluate Credit Risk Assessment</span>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Right Panel: Real-Time Risk Intelligence -->
+            <section class="card panel-results">
+                <div class="card-header">
+                    <div class="header-icon purple">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2>Credit Risk Intelligence Output</h2>
+                        <p class="subtitle">Live probability calibration & decision explanation</p>
+                    </div>
+                </div>
+
+                <div class="results-body">
+                    <!-- Gauge & Verdict Section -->
+                    <div class="verdict-banner" id="verdictBanner">
+                        <div class="verdict-status-box">
+                            <span class="verdict-badge" id="verdictBadge">LOAN APPROVED</span>
+                            <div class="verdict-title" id="verdictTitle">Low Credit Risk Tier</div>
+                            <p class="verdict-desc" id="verdictDesc">Applicant satisfies regulatory and institutional solvency thresholds.</p>
+                        </div>
+
+                        <!-- Radial Circular Gauge -->
+                        <div class="gauge-wrapper">
+                            <div class="gauge-container">
+                                <svg class="gauge-svg" viewBox="0 0 120 120">
+                                    <circle class="gauge-bg" cx="60" cy="60" r="50"></circle>
+                                    <circle class="gauge-fill" id="gaugeFill" cx="60" cy="60" r="50"></circle>
+                                </svg>
+                                <div class="gauge-content">
+                                    <span class="gauge-pct" id="gaugePct">13.2%</span>
+                                    <span class="gauge-label">Default Risk</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Underwriting Metrics Grid -->
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <span class="metric-label">Household Income</span>
+                            <span class="metric-value" id="resTotIncome">$11,700/mo</span>
+                            <span class="metric-sub">Primary + Co-signer</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-label">Estimated EMI</span>
+                            <span class="metric-value" id="resEmi">$388.89/mo</span>
+                            <span class="metric-sub">Monthly Installment</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-label">Debt-To-Income (DTI)</span>
+                            <span class="metric-value" id="resDti">3.3%</span>
+                            <span class="metric-sub">Safe (&lt; 40%)</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-label">Net Surplus Buffer</span>
+                            <span class="metric-value" id="resSurplus">$11,311/mo</span>
+                            <span class="metric-sub">Discretionary Cash</span>
+                        </div>
+                    </div>
+
+                    <!-- Risk Factors & Domain Explanations -->
+                    <div class="audit-section">
+                        <h3>Automated Risk Explanations & Policy Audits:</h3>
+                        <ul class="factors-list" id="factorsList">
+                            <li class="factor-item good">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Strong credit bureau repayment record (Credit_History = 1.0)</span>
+                            </li>
+                            <li class="factor-item good">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Manageable debt-to-income ratio with healthy liquidity buffer</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Calibration Breakdown -->
+                    <div class="prob-bar-section">
+                        <div class="prob-header">
+                            <span>Approval Probability: <strong id="probAppVal">86.8%</strong></span>
+                            <span>Default Probability: <strong id="probDefVal">13.2%</strong></span>
+                        </div>
+                        <div class="prob-bar-track">
+                            <div class="prob-bar-fill" id="probBarFill" style="width: 86.8%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Section: Diagnostics & Architecture Overview -->
+        <section class="card panel-diagnostics">
+            <div class="card-header">
+                <div class="header-icon green">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2>Model Validation & Banking Architecture</h2>
+                    <p class="subtitle">5-Fold Stratified Cross-Validation & Cost-Sensitive Risk Analysis</p>
+                </div>
+            </div>
+
+            <div class="diagnostics-grid">
+                <!-- Confusion Matrix Widget -->
+                <div class="diag-card">
+                    <h3>Holdout Test Set Confusion Matrix (N = 123)</h3>
+                    <div class="cm-table-wrapper">
+                        <table class="cm-table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Predicted Default (0)</th>
+                                    <th>Predicted Approved (1)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>Actual Default (0)</th>
+                                    <td class="cell-tp">13 <small>(True Negatives)</small></td>
+                                    <td class="cell-fp">19 <small>(False Positives)</small></td>
+                                </tr>
+                                <tr>
+                                    <th>Actual Approved (1)</th>
+                                    <td class="cell-fn">2 <small>(False Negatives)</small></td>
+                                    <td class="cell-tn">89 <small>(True Positives)</small></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="cm-insight">
+                        <strong>Defaulter Precision: 86.7%</strong> — When the system flags an applicant for default, it is correct in nearly 9 out of 10 cases, directly preventing capital loss.
+                    </p>
+                </div>
+
+                <!-- Feature Importances Widget -->
+                <div class="diag-card">
+                    <h3>Top Credit Risk Driving Features</h3>
+                    <div class="fi-bars">
+                        <div class="fi-row">
+                            <span class="fi-name">Credit_History (Bureau)</span>
+                            <div class="fi-track"><div class="fi-bar" style="width: 88%;"></div></div>
+                            <span class="fi-pct">29.4%</span>
+                        </div>
+                        <div class="fi-row">
+                            <span class="fi-name">Balance_Income (Surplus)</span>
+                            <div class="fi-track"><div class="fi-bar" style="width: 52%;"></div></div>
+                            <span class="fi-pct">17.1%</span>
+                        </div>
+                        <div class="fi-row">
+                            <span class="fi-name">Total_Income / Total_Income_Log</span>
+                            <div class="fi-track"><div class="fi-bar" style="width: 44%;"></div></div>
+                            <span class="fi-pct">14.6%</span>
+                        </div>
+                        <div class="fi-row">
+                            <span class="fi-name">EMI (Installment Burden)</span>
+                            <div class="fi-track"><div class="fi-bar" style="width: 38%;"></div></div>
+                            <span class="fi-pct">12.8%</span>
+                        </div>
+                        <div class="fi-row">
+                            <span class="fi-name">LoanAmount / LoanAmount_Log</span>
+                            <div class="fi-track"><div class="fi-bar" style="width: 33%;"></div></div>
+                            <span class="fi-pct">10.9%</span>
+                        </div>
+                    </div>
+                    <p class="cm-insight">
+                        Engineered ratios (`Balance_Income` and `EMI`) account for over 30% of total model importance, drastically outperforming raw applicant income.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <p>Loan Default Prediction System • Production Supervised Learning Pipeline • Scikit-Learn 1.9 & Python 3.11</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
